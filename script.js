@@ -7,7 +7,6 @@ const actionLogSection = document.querySelector(".actionLogSection");
 const actionLog = document.querySelector(".actionLogUl");
 console.log(actionLog);
 const body = document.querySelector("body");
-const randomColor = Math.floor(Math.random() * 16777215).toString(16);
 const ulChild = document.querySelector("ul li");
 const getElapsedTime = () => {
   return Number((Date.now() - _initTime) / 1000).toFixed(2) + "s";
@@ -38,16 +37,27 @@ const clickOnSquare = (e) => {
   actionDiv.classList.add("actionTittleDiv");
   actionTime.innerText = `[${getElapsedTime()}]`;
   actionTitle.innerText = `Created a new ${e.target.classList[1]} square`;
-  index++;
+
+  const removeAddedSquares = () => {
+    while (displayedsquareWrapper.firstChild) {
+      displayedsquareWrapper.removeChild(displayedsquareWrapper.firstChild);
+    }
+  };
 
   const removeAllChildFromUl = () => {
     while (actionLog.firstChild) {
       actionLog.removeChild(actionLog.firstChild);
     }
   };
+
   body.onkeydown = (e) => {
-    if (e.key === "l") {
-      removeAllChildFromUl();
+    switch (e.key) {
+      case "s":
+        removeAddedSquares();
+        break;
+      case "l":
+        removeAllChildFromUl();
+        break;
     }
   };
 };
@@ -58,8 +68,10 @@ for (let actionSquare of actionSquares) {
 }
 
 body.onkeydown = (e) => {
-  if (e.keyCode === 32) {
-    body.style.backgroundColor =
-      "#" + Math.floor(Math.random() * 16777215).toString(16);
+  switch (e.keyCode) {
+    case 32:
+      body.style.backgroundColor =
+        "#" + Math.floor(Math.random() * 16777215).toString(16);
+      break;
   }
 };
